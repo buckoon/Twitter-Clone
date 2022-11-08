@@ -14,7 +14,14 @@ className="TweetBox">
             <input placeholder="what's happening" type="text"/>
            
         </div>
-        <Button>Tweet</Button>
+
+        <input
+        className="tweetBox_imageInput"
+        placeholder="Enter image URL"
+        type="text"
+        />
+        
+        <Button className="tweetBox_tweetButton">Tweet</Button>
     </form>
 
 </div>
