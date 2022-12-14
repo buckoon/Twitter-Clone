@@ -1,27 +1,44 @@
-import React from 'react'
-import "./Feed.css";
+import React, { useState, useEffect } from "react";
 import TweetBox from "./TweetBox";
 import Post from "./Post";
+import "./Feed.css";
+import { collection, onSnapshot } from "firebase/firestore"; 
+import {db} from "./firebase"
+
+
 
 function Feed() {
-    return (
-        <div className = "feed">
-            {/*Header */}
-            <div className="feed_header">
-                <h2>Home</h2>
-            </div>
-            {/*Home*/}
+  const [posts, setPosts] = useState([]);
 
-            <TweetBox />
-            {/*Tweetbox*/}
+  useEffect(() => {
+    onSnapshot(collection(db,"posts"), (snapshot) =>
+      setPosts(onSnapshot.docs.map((doc) => doc.data()))
+    );
+  }, []);
 
-            <Post />
-            {/*post*/}
-        </div>
+  return (
+    <div className="feed">
+      <div className="feed__header">
+        <h2>Home</h2>
+      </div>
 
-    )
+      <TweetBox />
 
-
+      
+        {posts.map((post) => (
+          <Post
+            key={post.text}
+            displayName={post.displayName}
+            username={post.username}
+            verified={post.verified}
+            text={post.text}
+            avatar={post.avatar}
+            image={post.image}
+          />
+        ))}
+      
+    </div>
+  );
 }
 
-export default Feed
+export default Feed;
